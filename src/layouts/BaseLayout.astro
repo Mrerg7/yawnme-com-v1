@@ -1,0 +1,89 @@
+---
+import '../styles/global.css';
+import StructuredData from '../components/StructuredData.astro';
+import {
+  SITE_NAME,
+  HERO_IMAGE_URL,
+  getCanonicalUrl,
+} from '../lib/constants';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = `${SITE_NAME} • Why Yawning Is Contagious`,
+  description = 'yawnme — Discover why yawning is contagious. Interactive science, empathy quiz, live global yawn feed, and beautiful explanations of the mirror neuron system.',
+  noindex = false,
+} = Astro.props;
+
+const canonical = getCanonicalUrl(Astro.url.pathname);
+const ogImage = HERO_IMAGE_URL;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="yawnme, contagious yawning, mirror neurons, empathy, social brain, premium domain"
+    />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex" />
+      ) : (
+        <meta
+          name="robots"
+          content="index, follow, max-image-preview:large, max-snippet:-1"
+        />
+      )
+    }
+    {!noindex && <link rel="canonical" href={canonical} />}
+    <meta name="author" content={SITE_NAME} />
+    <meta name="theme-color" content="#0d7377" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta
+      property="og:image:alt"
+      content="yawnme.com — why yawning is contagious"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="yawnme.com" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://imagedelivery.net" />
+
+    <StructuredData />
+  </head>
+  <body class="bg-paper text-ink overflow-x-hidden antialiased">
+    <slot />
+  </body>
+</html>

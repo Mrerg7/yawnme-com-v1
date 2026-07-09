@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yawnme.com/sitemap-index.xml

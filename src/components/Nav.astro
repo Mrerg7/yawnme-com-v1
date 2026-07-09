@@ -1,0 +1,56 @@
+---
+import { SITE_NAME } from '../lib/constants';
+---
+
+<nav
+  id="navbar"
+  class="fixed top-0 left-0 right-0 z-50 transition-all border-b border-transparent"
+>
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="flex items-center justify-between h-16 sm:h-20">
+      <a href="/" class="flex items-center gap-2.5 group" aria-label={`${SITE_NAME} home`}>
+        <span
+          class="w-9 h-9 rounded-xl bg-teal flex items-center justify-center shadow-sm"
+          aria-hidden="true"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="10.5" r="6.5" fill="#f3f6f7"></circle>
+            <ellipse cx="9.5" cy="9.5" rx="1.1" ry="1.4" fill="#12202a"></ellipse>
+            <ellipse cx="14.5" cy="9.5" rx="1.1" ry="1.4" fill="#12202a"></ellipse>
+            <path
+              d="M8.5 13c1 2.2 2.5 3 3.5 3s2.5-.8 3.5-3"
+              stroke="#12202a"
+              stroke-width="1.4"
+              stroke-linecap="round"></path>
+          </svg>
+        </span>
+        <span class="brand-mark text-[1.65rem] leading-none tracking-tight">
+          yawn<span class="text-teal">me</span>
+        </span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-7 text-sm font-medium text-ink/70">
+        <a href="#experience" class="hover:text-teal transition-colors">Experience</a>
+        <a href="#science" class="hover:text-teal transition-colors">Science</a>
+        <a href="#live" class="hover:text-teal transition-colors">Live Feed</a>
+        <a href="#quiz" class="hover:text-teal transition-colors">Quiz</a>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button
+          type="button"
+          data-yawn-trigger
+          class="px-4 sm:px-5 h-10 rounded-full bg-ink/5 hover:bg-ink/10 border border-ink/10 text-sm font-semibold transition-colors"
+        >
+          Catch a Yawn
+        </button>
+        <a
+          href="#quiz"
+          class="hidden sm:inline-flex items-center px-5 h-10 rounded-full bg-teal text-paper text-sm font-semibold hover:bg-teal-deep transition-colors"
+        >
+          Take the Quiz
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", "Figtree", ui-serif, Georgia, serif;
+  --color-ink: #12202a;
+  --color-paper: #f3f6f7;
+  --color-mist: #e4ecee;
+  --color-teal: #0d7377;
+  --color-teal-deep: #095456;
+  --color-coral: #b85a4a;
+  --color-sand: #8a9a7b;
+  --color-sky: #3d6b8a;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background-color: var(--color-paper);
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-teal) 35%, transparent);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .brand-mark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+  }
+
+  .section-header {
+    font-family: var(--font-display);
+    font-size: clamp(1.85rem, 4vw, 2.75rem);
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .hero-plane {
+    background-image:
+      linear-gradient(
+        115deg,
+        rgba(26, 20, 16, 0.72) 0%,
+        rgba(26, 20, 16, 0.45) 45%,
+        rgba(13, 115, 119, 0.35) 100%
+      ),
+      var(--hero-image-url);
+    background-size: cover;
+    background-position: center 35%;
+  }
+
+  .nav-scrolled {
+    background: color-mix(in oklab, var(--color-paper) 92%, transparent);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid color-mix(in oklab, var(--color-ink) 10%, transparent);
+  }
+
+  .yawn-face {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+  }
+
+  .yawn-face:active {
+    transform: scale(0.96);
+  }
+
+  .contagion-particle {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: var(--color-teal);
+    border-radius: 9999px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .stat-number {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .yawn-feed-item {
+    animation: feed-slide-in 0.4s ease forwards;
+  }
+
+  @keyframes feed-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-fade-up-delay {
+    animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  }
+
+  .animate-fade-up-delay-2 {
+    animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+  }
+
+  .accent-teal {
+    --topic-accent: var(--color-teal);
+  }
+  .accent-coral {
+    --topic-accent: var(--color-coral);
+  }
+  .accent-sand {
+    --topic-accent: var(--color-sand);
+  }
+  .accent-sky {
+    --topic-accent: var(--color-sky);
+  }
+}

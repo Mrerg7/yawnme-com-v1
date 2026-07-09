@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="yawnme — Discover why yawning is contagious. Interactive science, empathy quiz, live global yawn feed, and beautiful explanations of the mirror neuron system.">
+    <title>yawnme • Why Yawning Is Contagious</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
+            font-weight: 600;
+        }
+
+        .section-header {
+            font-size: 2.1rem;
+            line-height: 2.35rem;
+            font-weight: 700;
+            letter-spacing: -.03em;
+        }
+
+        .nav-active {
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        .yawn-face {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+        
+        .yawn-face:active {
+            transform: scale(0.96);
+        }
+
+        .mirror-neuron {
+            transition: all 0.3s ease;
+        }
+
+        .contagion-particle {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            background: #6366f1;
+            border-radius: 9999px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .nav-scrolled {
+            background-color: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(16px);
+        }
+
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .science-pill {
+            background: #1e2937;
+            border: 1px solid #334155;
+            transition: all 0.2s ease;
+        }
+
+        .science-pill:hover {
+            border-color: #6366f1;
+            transform: translateY(-1px);
+        }
+
+        .yawn-feed-item {
+            animation: feed-slide-in 0.4s ease forwards;
+        }
+
+        @keyframes feed-slide-in {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .metric {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .interactive-zone {
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+        
+        .interactive-zone:hover {
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+        }
+
+        .subtle-grid {
+            background-image: url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill-rule=%22evenodd%22%3E%3Cpath fill=%22%231e2937%22 fill-opacity=%22005%22 d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V8h-2v16h-4v2h4v4h2v-4h4v-2h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 6v-4H4v4H0v2h4v4h2V8h4V6H6z%22/%3E%3C/g%3E%3C/svg%27');
+            background-size: 60px 60px;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 border-b border-slate-800 bg-slate-950/90 backdrop-blur-xl transition-all">
+        <div class="max-w-screen-2xl mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-x-3">
+                    <div class="flex items-center gap-x-2.5">
+                        <div class="w-9 h-9 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-inner">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 4.5C10.8 4.5 9.75 5.55 9.75 6.75C9.75 7.95 10.8 9 12 9C13.2 9 14.25 7.95 14.25 6.75C14.25 5.55 13.2 4.5 12 4.5Z" fill="white"/>
+                                <path d="M8.25 13.5C8.25 12.3 9.3 11.25 10.5 11.25H13.5C14.7 11.25 15.75 12.3 15.75 13.5V17.25C15.75 18.45 14.7 19.5 13.5 19.5H10.5C9.3 19.5 8.25 18.45 8.25 17.25V13.5Z" fill="white"/>
+                            </svg>
+                        </div>
+                        <div class="flex items-baseline">
+                            <span class="font-display text-[27px] font-semibold tracking-[-1.5px]">yawn</span>
+                            <span class="font-display text-[27px] font-semibold tracking-[-1.5px] text-indigo-400">me</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex items-center gap-x-7 text-sm">
+                    <a href="#experience" class="hover:text-indigo-400 transition-colors px-2">Experience</a>
+                    <a href="#science" class="hover:text-indigo-400 transition-colors px-2">Science</a>
+                    <a href="#live" class="hover:text-indigo-400 transition-colors px-2">Live Feed</a>
+                    <a href="#quiz" class="hover:text-indigo-400 transition-colors px-2">Quiz</a>
+                </div>
+
+                <div class="flex items-center gap-x-3">
+                    <button onclick="triggerMainYawn()" 
+                            class="flex items-center gap-x-2 px-5 h-10 rounded-2xl bg-white/5 hover:bg-white/10 active:bg-white/15 border border-white/10 text-sm font-medium transition-all">
+                        <i class="fa-solid fa-head-side-cough mr-1.5"></i>
+                        <span class="hidden sm:inline">Catch a Yawn</span>
+                        <span class="sm:hidden">Yawn</span>
+                    </button>
+                    
+                    <button onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})" 
+                            class="hidden md:block px-5 h-10 rounded-2xl border border-slate-700 hover:bg-slate-900 text-sm font-medium transition-all">
+                        Take the Quiz
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="pt-20 pb-14 border-b border-slate-800">
+        <div class="max-w-screen-2xl mx-auto px-6 md:px-12">
+            <div class="grid md:grid-cols-12 gap-x-10 items-center">
+                <div class="md:col-span-7 max-w-[620px]">
+                    <div class="inline-flex items-center gap-x-2 px-4 h-8 rounded-3xl bg-indigo-950/70 border border-indigo-900 text-indigo-400 text-xs tracking-[1.5px] font-medium mb-6">
+                        <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse"></div>
+                        POWERED BY YOUR MIRROR NEURONS
+                    </div>
+                    
+                    <h1 class="text-6xl md:text-7xl font-display tracking-[-3.2px] leading-[0.92] mb-6">
+                        Yawning is<br>contagious.<br>
+                        <span class="text-indigo-400">Here’s why.</span>
+                    </h1>
+                    
+                    <p class="text-xl text-slate-400 max-w-lg mb-9">
+                        Your brain contains a hidden network that makes you yawn when others do. 
+                        It’s one of the most beautiful demonstrations of human connection.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="document.getElementById('experience').scrollIntoView({ behavior: 'smooth' })" 
+                                class="px-8 h-14 rounded-3xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 transition-all font-semibold text-lg flex items-center gap-x-3 group">
+                            <span>Start the Experience</span>
+                            <i class="fa-solid fa-arrow-right group-active:translate-x-0.5 transition-transform"></i>
+                        </button>
+                        
+                        <button onclick="document.getElementById('live').scrollIntoView({ behavior: 'smooth' })" 
+                                class="px-7 h-14 rounded-3xl border border-slate-700 hover:bg-slate-900 transition-all font-medium flex items-center gap-x-2 text-base">
+                            See live yawns
+                        </button>
+                    </div>
+                    
+                    <div class="mt-8 flex items-center gap-x-4 text-xs text-slate-500">
+                        <div class="flex -space-x-1.5">
+                            <div class="w-5 h-5 rounded-full bg-slate-700 border border-slate-600"></div>
+                            <div class="w-5 h-5 rounded-full bg-slate-700 border border-slate-600"></div>
+                            <div class="w-5 h-5 rounded-full bg-slate-700 border border-slate-600"></div>
+                        </div>
+                        <div>142,891 yawns caught in the last 24 hours</div>
+                    </div>
+                </div>
+                
+                <!-- Hero Yawn Face -->
+                <div class="md:col-span-5 mt-10 md:mt-0 flex justify-center">
+                    <div onclick="triggerHeroYawn(this)" class="yawn-face relative w-72 h-72 md:w-[295px] md:h-[295px] cursor-pointer">
+                        <svg id="hero-yawn-svg" width="100%" height="100%" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="160" cy="155" r="108" fill="#1e2937" stroke="#475569" stroke-width="18"/>
+                            
+                            <!-- Ears -->
+                            <ellipse cx="62" cy="128" rx="17" ry="26" fill="#1e2937" stroke="#475569" stroke-width="11" transform="rotate(-28 62 128)"/>
+                            <ellipse cx="258" cy="128" rx="17" ry="26" fill="#1e2937" stroke="#475569" stroke-width="11" transform="rotate(28 258 128)"/>
+                            
+                            <!-- Hair -->
+                            <path d="M88 72 Q160 32 232 72" fill="none" stroke="#475569" stroke-width="26" stroke-linecap="round"/>
+                            
+                            <!-- Eyes -->
+                            <g id="hero-eyes">
+                                <ellipse cx="112" cy="126" rx="16" ry="21" fill="#0f172a"/>
+                                <ellipse cx="208" cy="126" rx="16" ry="21" fill="#0f172a"/>
+                                <ellipse cx="112" cy="126" rx="8" ry="11" fill="#64748b"/>
+                                <ellipse cx="208" cy="126" rx="8" ry="11" fill="#64748b"/>
+                            </g>
+                            
+                            <!-- Eyebrows -->
+                            <path d="M93 98 Q112 90 132 100" fill="none" stroke="#475569" stroke-width="6.5" stroke-linecap="round"/>
+                            <path d="M188 100 Q208 90 227 98" fill="none" stroke="#475569" stroke-width="6.5" stroke-linecap="round"/>
+                            
+                            <!-- Mouth -->
+                            <g id="hero-mouth-group">
+                                <path id="hero-mouth" d="M112 183 Q160 194 208 183" fill="none" stroke="#475569" stroke-width="13" stroke-linecap="round"/>
+                                <path id="hero-mouth-inner" d="M124 181 Q160 189 196 181" fill="none" stroke="#334155" stroke-width="5" stroke-linecap="round" opacity="0.65"/>
+                            </g>
+                        </svg>
+                        
+                        <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 px-4 py-px bg-slate-900/90 text-[10px] tracking-widest font-mono border border-slate-700 rounded-3xl text-indigo-400 flex items-center gap-x-1.5">
+                            <span class="font-medium">CLICK TO YAWN</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Stats -->
+    <div class="bg-slate-900 border-b border-slate-800 py-4">
+        <div class="max-w-screen-2xl mx-auto px-6 md:px-12">
+            <div class="flex flex-wrap justify-center md:justify-between items-center gap-x-8 gap-y-2 text-sm">
+                <div class="flex items-center gap-x-7 text-xs">
+                    <div><span class="font-mono text-emerald-400 font-semibold stat-number" id="global-yawns">142891</span> <span class="text-slate-500">yawns today</span></div>
+                    <div class="hidden sm:block h-3 w-px bg-slate-700"></div>
+                    <div><span class="font-mono text-amber-400 font-semibold stat-number" id="session-yawns">0</span> <span class="text-slate-500">in this session</span></div>
+                </div>
+                <div class="text-xs text-slate-500 flex items-center gap-x-2">
+                    <i class="fa-solid fa-globe fa-fw text-indigo-400"></i>
+                    <span>Active across <span class="font-medium text-slate-400">148</span> countries right now</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- THE EXPERIENCE -->
+    <section id="experience" class="max-w-screen-2xl mx-auto px-6 md:px-12 pt-16 pb-12">
+        <div class="text-center mb-10">
+            <div class="uppercase tracking-[2.5px] text-xs font-semibold text-indigo-400 mb-2">INTERACTIVE</div>
+            <h2 class="section-header tracking-tight">Feel it happen in real time</h2>
+            <p class="text-slate-400 mt-2 max-w-md mx-auto">Click the face below. Watch your mirror neurons respond.</p>
+        </div>
+        
+        <div class="max-w-[620px] mx-auto">
+            <div onclick="triggerMainYawn(this)" id="main-yawn-container"
+                 class="interactive-zone yawn-face relative mx-auto w-80 h-80 md:w-[340px] md:h-[340px] cursor-pointer bg-slate-900 border border-slate-700 rounded-[4.5rem] flex items-center justify-center shadow-2xl">
+                
+                <svg id="main-yawn-svg" width="260" height="260" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="130" cy="128" r="92" fill="#334155" stroke="#475569" stroke-width="15"/>
+                    
+                    <!-- Eyes -->
+                    <g id="main-eyes">
+                        <ellipse cx="92" cy="105" rx="14" ry="18" fill="#0f172a"/>
+                        <ellipse cx="168" cy="105" rx="14" ry="18" fill="#0f172a"/>
+                        <ellipse cx="92" cy="105" rx="7" ry="9" fill="#64748b"/>
+                        <ellipse cx="168" cy="105" rx="7" ry="9" fill="#64748b"/>
+                    </g>
+                    
+                    <!-- Eyebrows -->
+                    <path d="M74 82 Q92 75 110 84" fill="none" stroke="#475569" stroke-width="5" stroke-linecap="round"/>
+                    <path d="M150 84 Q168 75 186 82" fill="none" stroke="#475569" stroke-width="5" stroke-linecap="round"/>
+                    
+                    <!-- Mouth -->
+                    <path id="main-mouth" d="M78 148 Q130 160 182 148" fill="none" stroke="#475569" stroke-width="12" stroke-linecap="round"/>
+                    
+                    <!-- Nose hint -->
+                    <path d="M126 118 Q130 125 134 118" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            
+            <div class="text-center mt-5">
+                <div id="main-status" class="text-sm text-slate-400 font-light tracking-tight">Your brain is ready to simulate a yawn...</div>
+                <div id="main-count" class="font-mono text-xs mt-1 text-indigo-400">Yawns triggered this session: <span class="font-semibold">0</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCIENCE HIGHLIGHTS -->
+    <section id="science" class="max-w-screen-2xl mx-auto px-6 md:px-12 py-14 border-t border-slate-800 bg-slate-900/40">
+        <div class="mb-9">
+            <div class="uppercase tracking-[2px] text-xs font-semibold text-indigo-400">THE SCIENCE</div>
+            <h2 class="section-header tracking-tight mt-1">What’s actually happening in your brain</h2>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Card 1 -->
+            <div class="science-pill rounded-3xl p-6">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="w-9 h-9 rounded-2xl bg-indigo-950 flex items-center justify-center text-indigo-400">
+                        <i class="fa-solid fa-brain fa-lg"></i>
+                    </div>
+                    <div class="font-semibold text-lg tracking-tight">Mirror Neuron System</div>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed">Specialized neurons in the inferior frontal gyrus and inferior parietal lobule fire both when you yawn <span class="font-medium">and</span> when you see someone else yawn.</p>
+            </div>
+            
+            <div class="science-pill rounded-3xl p-6">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="w-9 h-9 rounded-2xl bg-emerald-950 flex items-center justify-center text-emerald-400">
+                        <i class="fa-solid fa-heart fa-lg"></i>
+                    </div>
+                    <div class="font-semibold text-lg tracking-tight">Empathy Engine</div>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed">Contagious yawning is a behavioral marker of empathy. You’re far more likely to catch a yawn from people you feel close to — family, partners, and close friends.</p>
+                <div class="mt-4 text-xs text-emerald-400 flex items-center gap-x-1.5">
+                    <span>92% response rate with loved ones</span>
+                </div>
+            </div>
+            
+            <div class="science-pill rounded-3xl p-6">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="w-9 h-9 rounded-2xl bg-amber-950 flex items-center justify-center text-amber-400">
+                        <i class="fa-solid fa-child fa-lg"></i>
+                    </div>
+                    <div class="font-semibold text-lg tracking-tight">Developmental Milestone</div>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed">Children typically begin catching yawns around age 4–5 — the same period they develop Theory of Mind, the ability to understand that others have separate thoughts and feelings.</p>
+            </div>
+            
+            <div class="science-pill rounded-3xl p-6">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <div class="w-9 h-9 rounded-2xl bg-sky-950 flex items-center justify-center text-sky-400">
+                        <i class="fa-solid fa-headset fa-lg"></i>
+                    </div>
+                    <div class="font-semibold text-lg tracking-tight">Not Just Visual</div>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed">Hearing a yawn is often enough to trigger the response, especially from people you’re emotionally close to. This proves it’s about social connection, not just visual mimicry.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE GLOBAL YAWN FEED -->
+    <section id="live" class="max-w-screen-2xl mx-auto px-6 md:px-12 py-14 border-t border-slate-800">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-y-4 mb-8">
+            <div>
+                <div class="uppercase tracking-[2px] text-xs font-semibold text-indigo-400">HAPPENING RIGHT NOW</div>
+                <h2 class="section-header tracking-tight">The Global Yawn Feed</h2>
+            </div>
+            <button onclick="addYawnToFeed()" 
+                    class="self-start lg:self-auto px-5 h-10 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-medium flex items-center gap-x-2 transition-all">
+                <i class="fa-solid fa-plus mr-1"></i> 
+                <span>Add a yawn to the feed</span>
+            </button>
+        </div>
+        
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-2 max-w-4xl">
+            <div id="yawn-feed" class="max-h-[320px] overflow-y-auto space-y-1 p-3 text-sm custom-scroll">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+        
+        <div class="text-xs text-slate-500 mt-3 flex items-center gap-x-2">
+            <i class="fa-solid fa-info-circle"></i>
+            <span>Simulated live feed • Every yawn you trigger appears here too</span>
+        </div>
+    </section>
+
+    <!-- ANIMALS + CLINICAL (condensed beautiful version) -->
+    <section class="max-w-screen-2xl mx-auto px-6 md:px-12 py-12 border-t border-slate-800">
+        <div class="grid lg:grid-cols-12 gap-6">
+            <!-- Animals -->
+            <div class="lg:col-span-7 bg-slate-900 border border-slate-700 rounded-3xl p-8">
+                <div class="uppercase tracking-widest text-xs text-indigo-400 font-semibold mb-3">ACROSS SPECIES</div>
+                <h3 class="font-semibold text-2xl tracking-tight mb-5">Contagious yawning in the animal kingdom</h3>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-5 text-sm">
+                    <div class="flex gap-x-3"><span class="text-xl mt-px">🦍</span> <div><span class="font-medium">Chimpanzees &amp; Bonobos</span><br><span class="text-xs text-slate-400">Strong in-group response</span></div></div>
+                    <div class="flex gap-x-3"><span class="text-xl mt-px">🐕</span> <div><span class="font-medium">Dogs</span><br><span class="text-xs text-slate-400">Catch yawns from humans (especially owners)</span></div></div>
+                    <div class="flex gap-x-3"><span class="text-xl mt-px">🐺</span> <div><span class="font-medium">Wolves &amp; Lions</span><br><span class="text-xs text-slate-400">Supports group vigilance &amp; coordination</span></div></div>
+                    <div class="flex gap-x-3"><span class="text-xl mt-px">🐦</span> <div><span class="font-medium">Budgerigars</span><br><span class="text-xs text-slate-400">One of few birds with documented contagion</span></div></div>
+                </div>
+                
+                <div class="mt-6 pt-5 border-t border-slate-700 text-xs text-slate-400">
+                    Evolutionary purpose: synchronizing alertness and sleep/wake cycles within highly social groups.
+                </div>
+            </div>
+            
+            <!-- Clinical -->
+            <div class="lg:col-span-5 bg-slate-900 border border-slate-700 rounded-3xl p-8">
+                <div class="uppercase tracking-widest text-xs text-rose-400 font-semibold mb-3">CLINICAL INSIGHT</div>
+                <h3 class="font-semibold text-2xl tracking-tight mb-4">Autism &amp; the yawn response</h3>
+                
+                <p class="text-sm text-slate-300">Early research suggested reduced contagious yawning in autism. More recent findings show the mechanism is often intact but can be influenced by <span class="font-medium">oxytocin levels</span> and attention to the eye region of faces.</p>
+                
+                <div class="mt-5 text-xs bg-slate-950 border border-slate-700 rounded-2xl p-4">
+                    Children with higher oxytocin yawn contagiously at rates similar to neurotypical peers — suggesting the social brain circuitry is present, just modulated differently.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz" class="max-w-screen-2xl mx-auto px-6 md:px-12 py-14 border-t border-slate-800 bg-slate-900/50">
+        <div class="max-w-2xl mx-auto text-center">
+            <div class="uppercase tracking-[2px] text-xs font-semibold text-indigo-400 mb-2">KNOW YOURSELF</div>
+            <h2 class="section-header tracking-tight">How strong is your yawn reflex?</h2>
+            <p class="text-slate-400 mt-2">A quick 5-question quiz that measures your susceptibility to contagious yawning — often a window into empathic wiring.</p>
+            
+            <button onclick="startQuickQuiz()" 
+                    class="mt-7 px-9 h-14 rounded-3xl bg-white text-slate-900 hover:bg-amber-50 active:bg-white font-semibold text-lg transition-all flex items-center gap-x-3 mx-auto">
+                <span>Start the 60-second quiz</span>
+                <i class="fa-solid fa-play fa-sm"></i>
+            </button>
+            
+            <div class="text-xs text-slate-500 mt-4">Takes less than a minute • Instant results</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-950">
+        <div class="max-w-screen-2xl mx-auto px-6 md:px-12 py-10 text-sm">
+            <div class="flex flex-col md:flex-row justify-between gap-y-6 items-start">
+                <div>
+                    <div class="flex items-center gap-x-2 mb-2">
+                        <span class="font-display text-2xl tracking-[-1px]">yawnme</span>
+                    </div>
+                    <div class="text-xs text-slate-500 max-w-xs">An exploration of contagious yawning, empathy, and the social brain. Educational &amp; interactive.</div>
+                </div>
+                
+                <div class="text-xs text-slate-500 max-w-sm">
+                    Built with accurate neuroscience. Mirror neuron research • Theory of Mind development • Comparative ethology • Oxytocin studies in ASD.
+                </div>
+            </div>
+            
+            <div class="mt-9 pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between text-xs text-slate-500 gap-y-2">
+                <div>© 2026 yawnme • Not medical advice</div>
+                <div class="flex gap-x-5">
+                    <a href="#" class="hover:text-slate-300">Deep Science (yawned.me)</a>
+                    <a href="#" class="hover:text-slate-300">Research Notes</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" onclick="if (event.target.id === 'quiz-modal') closeQuizModal()" class="hidden fixed inset-0 bg-black/70 z-[70] flex items-center justify-center p-4">
+        <div onclick="event.stopImmediatePropagation()" class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-lg p-8">
+            <div id="quiz-content">
+                <!-- JS injected -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind
+        function initTailwind() {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            'display': ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif']
+                        }
+                    }
+                }
+            };
+        }
+        
+        // Navbar
+        function initNavbar() {
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                navbar.classList.toggle('nav-scrolled', window.scrollY > 15);
+            });
+        }
+        
+        // Counters
+        let globalYawns = 142891;
+        let sessionYawns = 0;
+        
+        function updateCounters() {
+            const g = document.getElementById('global-yawns');
+            const s = document.getElementById('session-yawns');
+            if (g) g.textContent = globalYawns.toLocaleString();
+            if (s) s.textContent = sessionYawns;
+        }
+        
+        function incrementGlobal(n = 1) {
+            globalYawns += n;
+            const el = document.getElementById('global-yawns');
+            if (el) {
+                el.textContent = globalYawns.toLocaleString();
+                el.style.transition = 'color 300ms ease';
+                el.style.color = '#4ade80';
+                setTimeout(() => { el.style.color = '#10b981'; }, 650);
+            }
+        }
+        
+        function incrementSession() {
+            sessionYawns++;
+            const el = document.getElementById('session-yawns');
+            if (el) {
+                el.textContent = sessionYawns;
+                el.style.transform = 'scale(1.25)';
+                setTimeout(() => { el.style.transform = 'scale(1)'; }, 180);
+            }
+            if (Math.random() < 0.4) setTimeout(() => incrementGlobal(1), 900);
+        }
+        
+        // Yawn animations
+        function triggerHeroYawn(el) {
+            const svg = document.getElementById('hero-yawn-svg');
+            const mouth = document.getElementById('hero-mouth');
+            const mouthInner = document.getElementById('hero-mouth-inner');
+            const eyes = document.getElementById('hero-eyes');
+            
+            if (!mouth) return;
+            
+            el.classList.add('scale-[1.03]');
+            
+            mouth.style.transition = 'all 340ms cubic-bezier(0.34, 1.56, 0.64, 1)';
+            mouth.setAttribute('d', 'M105 176 Q160 218 215 176');
+            
+            if (mouthInner) {
+                mouthInner.style.transition = 'all 340ms cubic-bezier(0.34, 1.56, 0.64, 1)';
+                mouthInner.setAttribute('d', 'M118 178 Q160 208 202 178');
+            }
+            
+            if (eyes) {
+                eyes.style.transition = 'all 220ms ease';
+                eyes.setAttribute('transform', 'translate(0, 5)');
+            }
+            
+            createParticles(el, 11);
+            playSoftYawnTone();
+            incrementSession();
+            incrementGlobal(1);
+            addYawnToFeed('You', true);
+            
+            setTimeout(() => {
+                if (mouth) {
+                    mouth.style.transition = 'all 680ms cubic-bezier(0.23, 1, 0.32, 1)';
+                    mouth.setAttribute('d', 'M112 183 Q160 194 208 183');
+                }
+                if (mouthInner) mouthInner.setAttribute('d', 'M124 181 Q160 189 196 181');
+                if (eyes) eyes.setAttribute('transform', 'translate(0, 0)');
+                el.classList.remove('scale-[1.03]');
+            }, 1350);
+        }
+        
+        function triggerMainYawn(el) {
+            const container = el || document.getElementById('main-yawn-container');
+            const svg = document.getElementById('main-yawn-svg');
+            const mouth = document.getElementById('main-mouth');
+            const eyes = document.getElementById('main-eyes');
+            const status = document.getElementById('main-status');
+            const countEl = document.getElementById('main-count');
+            
+            if (!mouth || !container) return;
+            
+            container.style.transform = 'scale(0.985)';
+            
+            mouth.style.transition = 'all 260ms cubic-bezier(0.34, 1.56, 0.64, 1)';
+            mouth.setAttribute('d', 'M70 152 Q130 175 190 152');
+            
+            if (eyes) {
+                eyes.style.transition = 'all 180ms ease';
+                eyes.setAttribute('transform', 'translate(0, 4)');
+            }
+            
+            createParticles(container, 8);
+            playSoftYawnTone();
+            incrementSession();
+            incrementGlobal(1);
+            addYawnToFeed('You', true);
+            
+            if (status) {
+                const msgs = ["Mirror neurons activated", "Empathy simulation complete", "Contagion successful", "You caught that yawn"];
+                status.textContent = msgs[Math.floor(Math.random()*msgs.length)];
+                status.style.color = '#6366f1';
+            }
+            
+            let current = parseInt(countEl?.querySelector('span')?.textContent || '0');
+            if (countEl) countEl.innerHTML = `Yawns triggered this session: <span class="font-semibold">${current + 1}</span>`;
+            
+            setTimeout(() => {
+                if (mouth) {
+                    mouth.style.transition = 'all 720ms cubic-bezier(0.23, 1, 0.32, 1)';
+                    mouth.setAttribute('d', 'M78 148 Q130 160 182 148');
+                }
+                if (eyes) eyes.setAttribute('transform', 'translate(0, 0)');
+                container.style.transform = 'scale(1)';
+                
+                if (status) {
+                    status.style.color = '';
+                    status.textContent = 'Your brain is ready to simulate a yawn...';
+                }
+            }, 1450);
+        }
+        
+        function createParticles(parent, count = 8) {
+            const rect = parent.getBoundingClientRect();
+            
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'contagion-particle';
+                p.style.left = (35 + Math.random() * 30) + '%';
+                p.style.top = (48 + Math.random() * 28) + '%';
+                p.style.opacity = 0.6 + Math.random() * 0.35;
+                parent.appendChild(p);
+                
+                setTimeout(() => {
+                    const angle = Math.random() * Math.PI * 2;
+                    const dist = 55 + Math.random() * 75;
+                    p.style.transition = `transform 920ms ease-out, opacity 920ms ease-out`;
+                    p.style.transform = `translate(${Math.cos(angle) * dist}px, ${Math.sin(angle) * dist - 30}px)`;
+                    p.style.opacity = '0';
+                    
+                    setTimeout(() => p.remove(), 950);
+                }, 30);
+            }
+        }
+        
+        let audioCtx;
+        function playSoftYawnTone() {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                const filter = audioCtx.createBiquadFilter();
+                
+                osc.type = 'sine';
+                osc.frequency.value = 88;
+                filter.type = 'lowpass';
+                filter.frequency.value = 340;
+                gain.gain.value = 0.028;
+                
+                const now = audioCtx.currentTime;
+                gain.gain.setValueAtTime(0.028, now);
+                gain.gain.linearRampToValueAtTime(0.0005, now + 1.7);
+                
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 1.9);
+            } catch(e){}
+        }
+        
+        // Live Yawn Feed
+        const feedMessages = [
+            ["Sarah in Phoenix", "caught a yawn from her partner"],
+            ["Marcus in London", "yawned after seeing his dog stretch"],
+            ["Priya in Mumbai", "yawned during a video call with her sister"],
+            ["Lucas in São Paulo", "matched his colleague’s yawn in a meeting"],
+            ["Elena in Madrid", "yawned after hearing her mom on the phone"],
+            ["Jamal in Nairobi", "caught it from his best friend"],
+            ["Sophie in Vancouver", "yawned watching a sleepy video"],
+            ["Kenji in Tokyo", "responded to his cat’s big yawn"],
+            ["Aisha in Dubai", "yawned in solidarity with her team"]
+        ];
+        
+        function addYawnToFeed(who = null, isUser = false) {
+            const feed = document.getElementById('yawn-feed');
+            if (!feed) return;
+            
+            let msg;
+            if (isUser) {
+                msg = ["You", "just triggered a contagious yawn"];
+            } else {
+                msg = feedMessages[Math.floor(Math.random() * feedMessages.length)];
+            }
+            
+            const item = document.createElement('div');
+            item.className = `yawn-feed-item flex items-center gap-x-3 px-4 py-[9px] rounded-2xl ${isUser ? 'bg-indigo-950/60 border border-indigo-900/60' : 'hover:bg-slate-800'}`;
+            
+            const time = new Date();
+            const timeStr = time.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+            
+            item.innerHTML = `
+                <div class="flex-shrink-0 w-2 h-2 rounded-full ${isUser ? 'bg-indigo-400' : 'bg-emerald-400'} mt-px"></div>
+                <div class="flex-1 min-w-0 text-sm">
+                    <span class="font-medium ${isUser ? 'text-indigo-300' : 'text-white'}">${msg[0]}</span>
+                    <span class="text-slate-400"> ${msg[1]}</span>
+                </div>
+                <div class="text-[10px] text-slate-500 font-mono flex-shrink-0">${timeStr}</div>
+            `;
+            
+            feed.prepend(item);
+            
+            // Keep feed reasonable size
+            while (feed.children.length > 11) {
+                feed.removeChild(feed.lastChild);
+            }
+            
+            if (!isUser) incrementGlobal(1);
+        }
+        
+        function seedFeed() {
+            const feed = document.getElementById('yawn-feed');
+            if (!feed) return;
+            
+            // Seed with 5 initial items
+            for (let i = 0; i < 5; i++) {
+                const msg = feedMessages[Math.floor(Math.random() * feedMessages.length)];
+                const item = document.createElement('div');
+                item.className = `flex items-center gap-x-3 px-4 py-[9px] rounded-2xl hover:bg-slate-800`;
+                
+                const minutesAgo = Math.floor(Math.random() * 18) + 2;
+                const timeStr = `${minutesAgo}m ago`;
+                
+                item.innerHTML = `
+                    <div class="flex-shrink-0 w-2 h-2 rounded-full bg-emerald-400 mt-px"></div>
+                    <div class="flex-1 min-w-0 text-sm">
+                        <span class="font-medium text-white">${msg[0]}</span>
+                        <span class="text-slate-400"> ${msg[1]}</span>
+                    </div>
+                    <div class="text-[10px] text-slate-500 font-mono flex-shrink-0">${timeStr}</div>
+                `;
+                feed.appendChild(item);
+            }
+            
+            // Occasional new yawns
+            setInterval(() => {
+                if (document.visibilityState === 'visible' && Math.random() < 0.55) {
+                    addYawnToFeed();
+                }
+            }, 12500);
+        }
+        
+        // Quiz
+        let quizStep = 0;
+        let quizScore = 0;
+        
+        const quizData = [
+            { q: "When someone close to you yawns, how often do you yawn too?", opts: ["Almost always", "Frequently", "Sometimes", "Rarely"] },
+            { q: "Do you yawn more around friends/family than when alone?", opts: ["Much more socially", "Slightly more", "About the same", "Less around others"] },
+            { q: "How easily do you sense what others are feeling emotionally?", opts: ["Very easily", "Quite easily", "Average", "Not very easily"] },
+            { q: "Have you ever yawned after just hearing someone yawn?", opts: ["Yes, often", "Yes, sometimes", "Once or twice", "Never"] },
+            { q: "Do emotional scenes in movies or shows make you physically react?", opts: ["Very frequently", "Often", "Sometimes", "Rarely"] }
+        ];
+        
+        function startQuickQuiz() {
+            const modal = document.getElementById('quiz-modal');
+            const content = document.getElementById('quiz-content');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            quizStep = 0;
+            quizScore = 0;
+            renderQuizStep(content);
+        }
+        
+        function renderQuizStep(container) {
+            if (quizStep >= quizData.length) {
+                showQuizResult(container);
+                return;
+            }
+            
+            const q = quizData[quizStep];
+            let html = `
+                <div class="flex justify-between items-center mb-6">
+                    <div class="text-xs tracking-[1.5px] text-indigo-400 font-medium">QUESTION ${quizStep + 1} / ${quizData.length}</div>
+                    <button onclick="closeQuizModal()" class="text-slate-400 hover:text-white text-xl leading-none">&times;</button>
+                </div>
+                
+                <div class="text-xl font-semibold tracking-tight mb-7">${q.q}</div>
+                
+                <div class="space-y-2.5">
+            `;
+            
+            q.opts.forEach((opt, i) => {
+                html += `
+                    <div onclick="selectQuizAnswer(${i}, this)" class="cursor-pointer border border-slate-700 hover:border-slate-500 active:bg-slate-800 px-5 py-4 rounded-2xl text-[15px] flex justify-between items-center">
+                        <span>${opt}</span>
+                        <i class="fa-solid fa-chevron-right text-slate-600"></i>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+        
+        function selectQuizAnswer(index, el) {
+            // scoring: 4,3,2,1
+            quizScore += (4 - index);
+            
+            // visual feedback
+            el.style.borderColor = '#6366f1';
+            el.style.background = '#312e81';
+            
+            setTimeout(() => {
+                quizStep++;
+                const container = document.getElementById('quiz-content');
+                renderQuizStep(container);
+            }, 380);
+        }
+        
+        function showQuizResult(container) {
+            const max = 20;
+            const pct = Math.round((quizScore / max) * 100);
+            
+            let label = '', desc = '', color = '';
+            
+            if (pct >= 80) {
+                label = "Highly Susceptible";
+                desc = "Your yawn reflex is very strong. This often reflects high empathic sensitivity and strong mirror neuron responsiveness.";
+                color = "text-emerald-400";
+            } else if (pct >= 62) {
+                label = "Moderately Susceptible";
+                desc = "You have a solid contagious yawning response — typical of good social-emotional attunement.";
+                color = "text-teal-400";
+            } else if (pct >= 42) {
+                label = "Average Response";
+                desc = "Your results sit comfortably in the normal range. Many factors (fatigue, closeness, context) influence the response.";
+                color = "text-amber-400";
+            } else {
+                label = "Lower Susceptibility";
+                desc = "You may be less prone to catching yawns. This can relate to attention patterns or neurochemistry and does not imply low empathy.";
+                color = "text-orange-400";
+            }
+            
+            container.innerHTML = `
+                <div class="text-center py-3">
+                    <div class="text-xs tracking-widest text-indigo-400 mb-1">YOUR RESULT</div>
+                    <div class="${color} text-7xl font-display font-bold tracking-tighter mb-1">${pct}<span class="text-4xl align-super font-normal">%</span></div>
+                    <div class="text-2xl font-semibold tracking-tight mb-5">${label}</div>
+                    
+                    <p class="text-slate-300 text-[15px] max-w-[340px] mx-auto">${desc}</p>
+                    
+                    <div class="mt-8 flex flex-col gap-y-3">
+                        <button onclick="closeQuizModal(); document.getElementById('experience').scrollIntoView({behavior:'smooth'})" 
+                                class="w-full h-12 rounded-2xl bg-indigo-600 hover:bg-indigo-500 font-semibold">Try the Yawn Experience</button>
+                        
+                        <button onclick="closeQuizModal()" class="w-full h-12 rounded-2xl border border-slate-700 hover:bg-slate-800 text-sm font-medium">Close</button>
+                    </div>
+                </div>
+            `;
+            
+            if (pct >= 75) launchConfetti();
+            incrementGlobal(2);
+        }
+        
+        function closeQuizModal() {
+            const modal = document.getElementById('quiz-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+        
+        function launchConfetti() {
+            const colors = ['#6366f1', '#34d399', '#f472b6'];
+            for (let i = 0; i < 38; i++) {
+                const p = document.createElement('div');
+                p.style.cssText = `position:fixed;z-index:99999;width:6.5px;height:6.5px;border-radius:999px;pointer-events:none;left:${Math.random()*window.innerWidth}px;top:-12px`;
+                p.style.background = colors[Math.floor(Math.random()*colors.length)];
+                document.body.appendChild(p);
+                
+                const dur = 1700 + Math.random()*1800;
+                let start = null;
+                
+                function anim(ts) {
+                    if (!start) start = ts;
+                    const prog = (ts - start) / dur;
+                    if (prog < 1) {
+                        const y = prog * (window.innerHeight + 100);
+                        p.style.transform = `translate(${Math.sin(prog * 6) * 28}px, ${y}px)`;
+                        p.style.opacity = (1 - prog * 0.85).toString();
+                        requestAnimationFrame(anim);
+                    } else p.remove();
+                }
+                requestAnimationFrame(anim);
+            }
+        }
+        
+        function initLiveFeed() {
+            seedFeed();
+            
+            // Keyboard hint
+            document.addEventListener('keydown', function(e) {
+                if (e.key.toLowerCase() === 'y') {
+                    const main = document.getElementById('main-yawn-container');
+                    if (main) triggerMainYawn(main);
+                    else triggerHeroYawn(document.querySelector('.yawn-face'));
+                }
+                if (e.key === '?') {
+                    const q = document.getElementById('quiz');
+                    if (q) q.scrollIntoView({behavior: 'smooth'});
+                }
+            });
+            
+            console.log('%c[yawnme] Press "Y" to yawn anywhere. "?" for quiz.', 'color:#475569');
+        }
+        
+        function initEverything() {
+            initTailwind();
+            initNavbar();
+            updateCounters();
+            initLiveFeed();
+            
+            // Gentle global growth
+            setInterval(() => {
+                if (document.visibilityState === 'visible' && Math.random() < 0.22) {
+                    incrementGlobal(1);
+                }
+            }, 18500);
+            
+            // Seed one user yawn after 45s if idle
+            setTimeout(() => {
+                if (sessionYawns === 0) {
+                    const feed = document.getElementById('yawn-feed');
+                    if (feed && feed.children.length > 0) {
+                        // optional gentle nudge - disabled to respect user agency
+                    }
+                }
+            }, 45000);
+        }
+        
+        window.onload = initEverything;
+        
+        // Public API
+        window.YAWNME = {
+            yawn: () => {
+                const el = document.getElementById('main-yawn-container');
+                if (el) triggerMainYawn(el);
+            },
+            stats: () => ({ global: globalYawns, session: sessionYawns })
+        };
+    </script>
+</body>
+</html>

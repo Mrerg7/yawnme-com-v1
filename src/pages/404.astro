@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_DOMAIN, acquisitionMailto } from '../lib/constants';
+---
+
+<BaseLayout
+  title={`Page Not Found — ${SITE_DOMAIN}`}
+  description={`The page you were looking for could not be found. Explore ${SITE_DOMAIN} — why yawning is contagious.`}
+  noindex={true}
+>
+  <main class="min-h-screen flex items-center justify-center px-5">
+    <div class="text-center max-w-lg">
+      <div
+        class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-mist border border-ink/10 mb-8"
+      >
+        <span class="text-4xl font-display text-ink/40">404</span>
+      </div>
+      <h1 class="text-3xl font-display tracking-tight mb-4">Page not found</h1>
+      <p class="text-ink/55 mb-8">
+        The page you were looking for doesn’t exist or has been moved.
+        {SITE_DOMAIN} is available for acquisition.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-teal text-paper font-semibold hover:bg-teal-deep transition-colors"
+        >
+          Return Home
+        </a>
+        <a
+          href={acquisitionMailto()}
+          class="inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-ink/15 font-semibold hover:bg-ink/5 transition-colors"
+        >
+          Inquire about this domain
+        </a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

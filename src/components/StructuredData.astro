@@ -1,0 +1,66 @@
+---
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_DOMAIN,
+  HERO_IMAGE_URL,
+  ACQUISITION_EMAIL,
+} from '../lib/constants';
+
+const description =
+  'yawnme — Discover why yawning is contagious. Interactive science, empathy quiz, and beautiful explanations of the mirror neuron system.';
+
+const webPage = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: `${SITE_NAME} • Why Yawning Is Contagious`,
+  description,
+  url: `${SITE_URL}/`,
+  inLanguage: 'en-US',
+  primaryImageOfPage: {
+    '@type': 'ImageObject',
+    url: HERO_IMAGE_URL,
+    contentUrl: HERO_IMAGE_URL,
+  },
+  about: {
+    '@type': 'Thing',
+    name: 'Contagious yawning',
+    description:
+      'An exploration of contagious yawning, empathy, and the social brain — plus a premium domain available for acquisition.',
+  },
+};
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: `${SITE_URL}/`,
+  email: ACQUISITION_EMAIL,
+  logo: HERO_IMAGE_URL,
+  description,
+};
+
+const product = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `${SITE_DOMAIN} domain name`,
+  description:
+    'Premium domain for yawnme — an interactive exploration of contagious yawning, empathy, and the social brain. Available for acquisition.',
+  category: 'Domain Name',
+  image: HERO_IMAGE_URL,
+  offers: {
+    '@type': 'Offer',
+    availability: 'https://schema.org/InStock',
+    priceCurrency: 'USD',
+    seller: {
+      '@type': 'Organization',
+      email: ACQUISITION_EMAIL,
+    },
+    url: `mailto:${ACQUISITION_EMAIL}`,
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(webPage)} />
+<script type="application/ld+json" set:html={JSON.stringify(organization)} />
+<script type="application/ld+json" set:html={JSON.stringify(product)} />

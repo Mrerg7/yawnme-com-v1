@@ -1,3 +1,1 @@
-https://www.yawnme.com/* https://yawnme.com/:splat 301
-http://yawnme.com/* https://yawnme.com/:splat 301
-http://www.yawnme.com/* https://yawnme.com/:splat 301
+/index.html / 301

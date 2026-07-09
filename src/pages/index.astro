@@ -29,30 +29,34 @@ const accentRing: Record<string, string> = {
       class="hero-plane relative min-h-[100dvh] flex items-end sm:items-center pt-20"
       style={`--hero-image-url: url(${HERO_IMAGE_URL});`}
     >
-      <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/35 to-ink/20" aria-hidden="true"></div>
+      <div class="hero-scrim absolute inset-0" aria-hidden="true"></div>
       <div class="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-8 pb-16 sm:pb-24 pt-10">
-        <p class="brand-mark text-5xl sm:text-6xl md:text-7xl text-paper animate-fade-up">
+        <p
+          class="brand-mark text-5xl sm:text-6xl md:text-7xl text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.35)] animate-fade-up"
+        >
           {SITE_NAME}
         </p>
         <h1
-          class="mt-4 max-w-xl font-display text-3xl sm:text-4xl md:text-[2.75rem] leading-[1.15] text-paper/95 animate-fade-up-delay"
+          class="mt-4 max-w-xl font-display text-3xl sm:text-4xl md:text-[2.75rem] leading-[1.15] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.3)] animate-fade-up-delay"
         >
           Yawning is contagious. Here’s why.
         </h1>
-        <p class="mt-4 max-w-md text-base sm:text-lg text-paper/70 leading-relaxed animate-fade-up-delay-2">
+        <p
+          class="mt-4 max-w-md text-base sm:text-lg text-white/90 leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.25)] animate-fade-up-delay-2"
+        >
           Your brain contains a hidden network that makes you yawn when others do —
           one of the most beautiful demonstrations of human connection.
         </p>
         <div class="mt-8 flex flex-wrap gap-3 animate-fade-up-delay-2">
           <a
             href="#experience"
-            class="inline-flex items-center justify-center px-7 h-12 sm:h-14 rounded-full bg-teal text-paper font-semibold text-base hover:bg-teal-deep transition-colors"
+            class="inline-flex items-center justify-center px-7 h-12 sm:h-14 rounded-full bg-teal text-white font-semibold text-base hover:bg-teal-deep transition-colors shadow-lg shadow-ink/25"
           >
             Start the Experience
           </a>
           <a
             href="#live"
-            class="inline-flex items-center justify-center px-7 h-12 sm:h-14 rounded-full border border-paper/30 text-paper font-medium hover:bg-paper/10 transition-colors"
+            class="inline-flex items-center justify-center px-7 h-12 sm:h-14 rounded-full border border-white/45 bg-white/10 text-white font-medium backdrop-blur-sm hover:bg-white/18 transition-colors"
           >
             See live yawns
           </a>

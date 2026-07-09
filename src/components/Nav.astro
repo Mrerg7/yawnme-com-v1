@@ -4,7 +4,7 @@ import { SITE_NAME } from '../lib/constants';
 
 <nav
   id="navbar"
-  class="fixed top-0 left-0 right-0 z-50 transition-all border-b border-transparent"
+  class="fixed top-0 left-0 right-0 z-50 transition-all border-b border-transparent text-white"
 >
   <div class="max-w-6xl mx-auto px-5 sm:px-8">
     <div class="flex items-center justify-between h-16 sm:h-20">
@@ -24,29 +24,29 @@ import { SITE_NAME } from '../lib/constants';
               stroke-linecap="round"></path>
           </svg>
         </span>
-        <span class="brand-mark text-[1.65rem] leading-none tracking-tight">
+        <span class="brand-mark text-[1.65rem] leading-none tracking-tight drop-shadow-sm">
           yawn<span class="text-teal">me</span>
         </span>
       </a>
 
-      <div class="hidden md:flex items-center gap-7 text-sm font-medium text-ink/70">
-        <a href="#experience" class="hover:text-teal transition-colors">Experience</a>
-        <a href="#science" class="hover:text-teal transition-colors">Science</a>
-        <a href="#live" class="hover:text-teal transition-colors">Live Feed</a>
-        <a href="#quiz" class="hover:text-teal transition-colors">Quiz</a>
+      <div class="nav-links hidden md:flex items-center gap-7 text-sm font-medium text-white/85">
+        <a href="#experience" class="hover:text-white transition-colors">Experience</a>
+        <a href="#science" class="hover:text-white transition-colors">Science</a>
+        <a href="#live" class="hover:text-white transition-colors">Live Feed</a>
+        <a href="#quiz" class="hover:text-white transition-colors">Quiz</a>
       </div>
 
       <div class="flex items-center gap-2 sm:gap-3">
         <button
           type="button"
           data-yawn-trigger
-          class="px-4 sm:px-5 h-10 rounded-full bg-ink/5 hover:bg-ink/10 border border-ink/10 text-sm font-semibold transition-colors"
+          class="px-4 sm:px-5 h-10 rounded-full bg-white/12 hover:bg-white/20 border border-white/25 text-sm font-semibold transition-colors backdrop-blur-sm"
         >
           Catch a Yawn
         </button>
         <a
           href="#quiz"
-          class="hidden sm:inline-flex items-center px-5 h-10 rounded-full bg-teal text-paper text-sm font-semibold hover:bg-teal-deep transition-colors"
+          class="hidden sm:inline-flex items-center px-5 h-10 rounded-full bg-teal text-white text-sm font-semibold hover:bg-teal-deep transition-colors"
         >
           Take the Quiz
         </a>

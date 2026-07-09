@@ -26,3 +26,8 @@ pnpm-debug.log*
 # wrangler
 .wrangler/
 .dev.vars
+
+# local tooling / previews
+.firecrawl/
+.hero-preview.jpg
+.tmp-*

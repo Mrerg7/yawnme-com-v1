@@ -48,15 +48,47 @@ const product = {
     'Premium domain for yawnme — an interactive exploration of contagious yawning, empathy, and the social brain. Available for acquisition.',
   category: 'Domain Name',
   image: HERO_IMAGE_URL,
+  brand: {
+    '@type': 'Brand',
+    name: SITE_NAME,
+  },
   offers: {
     '@type': 'Offer',
     availability: 'https://schema.org/InStock',
+    price: '0',
     priceCurrency: 'USD',
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: 0,
+      priceCurrency: 'USD',
+      name: 'Contact for price',
+    },
     seller: {
       '@type': 'Organization',
       email: ACQUISITION_EMAIL,
     },
     url: `mailto:${ACQUISITION_EMAIL}`,
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingRate: {
+        '@type': 'MonetaryAmount',
+        value: 0,
+        currency: 'USD',
+      },
+      deliveryTime: {
+        '@type': 'ShippingDeliveryTime',
+        handlingTime: {
+          '@type': 'QuantitativeValue',
+          minValue: 1,
+          maxValue: 7,
+          unitCode: 'DAY',
+        },
+      },
+    },
+    hasMerchantReturnPolicy: {
+      '@type': 'MerchantReturnPolicy',
+      returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+    },
   },
 };
 ---
